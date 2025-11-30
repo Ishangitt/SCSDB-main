@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* primary -#1F1E24
+secondary- #6556CD */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1F1E24;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #6556CD, #4a4080);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #7B68E6, #5d5199);
+  border-radius: 10px;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: #6556CD #1F1E24;
+  scrollbar-width: thin;
+}
+
+/* Smooth transitions */
+body {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background-color: #6556CD;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #6556CD;
+  color: white;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0;
+  background: #27272a;
+  background-image: none;
+  flex: 1;
+  padding: 0 0.5em;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  min-width: 0;
+  transition: background 0.3s ease;
+}
+select:hover {
+  background: #323238;
+}
+select:focus {
+  background: #3a3940;
+  box-shadow: 0 0 0 2px #6556CD;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  max-width: 100%;
+  height: 3em;
+  line-height: 3;
+  background: #27272a;
+  overflow: hidden;
+  border-radius: 0.25em;
+  border: 1px solid #3a3940;
+  transition: all 0.3s ease;
+}
+.select:hover {
+  border-color: #6556CD;
+}
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #27272a;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+  color: #6556CD;
+}
+.select:hover::after {
+  background: #6556CD;
+  color: white;
+}
+
+/* Responsive styles for select and .select */
+@media (max-width: 640px) {
+  .select {
+    width: 100%;
+    height: 2.5em;
+    font-size: 0.95em;
+  }
+  select {
+    font-size: 0.95em;
+    padding: 0 0.3em;
+  }
+  .select::after {
+    padding: 0 0.7em;
+    font-size: 0.95em;
+  }
+}
+
+/* Trailer specific responsive styles */
+@media (max-width: 768px) {
+  /* Mobile landscape adjustments */
+  .trailer-container {
+    padding: 1rem;
+  }
+  
+  /* Ensure video player doesn't exceed viewport on mobile */
+  .react-player {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile devices */
+  .trailer-container {
+    padding: 0.5rem;
+  }
+}
+
+/* Ensure proper aspect ratio maintenance */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Mobile landscape mode */
+  .trailer-video-container {
+    max-height: 85vh;
+    max-width: 95vw;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  /* Mobile portrait mode */
+  .trailer-video-container {
+    max-height: 50vh;
+    max-width: 95vw;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .ri-close-fill {
+    font-weight: 400;
+  }
+}
