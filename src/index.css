@@ -3,6 +3,29 @@
 /* primary -#1F1E24
 secondary- #6556CD */
 
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -141,7 +164,27 @@ select::-ms-expand {
   }
 }
 
-/* Ensure proper aspect ratio maintenance */
+/* Utility classes for animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Smooth transitions for hover effects */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gradient text */
+.bg-gradient-text {
+  background: linear-gradient(135deg, #6556CD 0%, #8b7dd8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}/* Ensure proper aspect ratio maintenance */
 @media (orientation: landscape) and (max-height: 600px) {
   /* Mobile landscape mode */
   .trailer-video-container {
