@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { useTheme } from "./context/ThemeContext";
 import Home from "./components/Home";
 import Loading from "./components/Loading";
 import Trending from "./components/Trending";
@@ -18,8 +19,10 @@ import ReptileCursor from "./components/ReptileCursor";
 
 
 function App(){
+  const { isDarkMode } = useTheme();
+  
   return(
-    <div className="bg-[#1F1E24] flex w-full h-full">
+    <div className={`${isDarkMode ? 'bg-[#1F1E24]' : 'bg-white'} flex w-full h-full`}>
       <ReptileCursor />
       <Routes>
         <Route path="/" element={<Home/>}/>
@@ -28,31 +31,16 @@ function App(){
         <Route path="/movie" element={<Movie/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contactus" element={<ContactUs/>}/>
-        <Route path="/movie/details/:id" element={<Moviedetails/>}>
-
-
-        <Route
-        path="/movie/details/:id/trailer" 
-        element={<Trailer/>} 
-        />
-        </Route>
-       
-        <Route path="/tv" element={<Tvshows/>}>
-        </Route>
-        <Route path="/tv/details/:id" element={<TvDetails/>}>
-        <Route
-        path="/tv/details/:id/trailer" 
-        element={<Trailer/>} 
-        />
-        </Route>
-
-        <Route path="/person" element={<People/>}>{" "}
-        </Route>
+        <Route path="/movie/details/:id" element={<Moviedetails/>}/>
+        <Route path="/movie/details/:id/trailer" element={<Trailer/>}/>
+        <Route path="/tv" element={<Tvshows/>}/>
+        <Route path="/tv/details/:id" element={<TvDetails/>}/>
+        <Route path="/tv/details/:id/trailer" element={<Trailer/>}/>
+        <Route path="/person" element={<People/>}/>
         <Route path="/person/details/:id" element={<PersonDetails/>}/>
         <Route path="*" element={<NotFound/>}/>
-       
       </Routes>
-      </div>
+    </div>
   )
 }
 

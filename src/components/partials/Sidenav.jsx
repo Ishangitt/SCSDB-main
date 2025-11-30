@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useTheme } from "../../context/ThemeContext";
 
 const Sidenav = ({ open, setOpen }) => {
   const location = useLocation();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   // Close menu when clicking outside or on link
   useEffect(() => {
@@ -48,13 +50,17 @@ const Sidenav = ({ open, setOpen }) => {
       )}
 
       <aside
-        className={`h-screen border-r-2 border-zinc-700 bg-[#1F1E24] w-[70vw] max-w-[320px] md:w-[19vw] md:max-w-[420px] p-13 md:p-10 flex flex-col fixed z-[50] top-0 left-0 overflow-y-auto transition-all duration-300 ease-in-out ${
+        className={`h-screen border-r-2 flex flex-col fixed z-[50] top-0 left-0 overflow-y-auto transition-all duration-300 ease-in-out w-[70vw] max-w-[320px] md:w-[19vw] md:max-w-[420px] p-13 md:p-10 ${
           open ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        } md:translate-x-0 ${
+          isDarkMode 
+            ? 'bg-[#1F1E24] border-zinc-700' 
+            : 'bg-white border-gray-200'
+        }`}
       >
         {/* Logo Section */}
         <div className="mb-8 pb-6 border-b border-zinc-700">
-          <Link to="/" onClick={handleLinkClick} className="text-3xl text-white font-black flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link to="/" onClick={handleLinkClick} className={`text-3xl font-black flex items-center gap-2 hover:opacity-80 transition-opacity ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
             <div className="w-10 h-10 bg-gradient-to-br from-[#6556CD] to-[#7B68E6] rounded-lg flex items-center justify-center">
               <i className="ri-film-fill text-white text-lg"></i>
             </div>
@@ -63,8 +69,8 @@ const Sidenav = ({ open, setOpen }) => {
         </div>
 
         {/* Main Navigation */}
-        <nav className="flex flex-col text-zinc-400 gap-1 mb-6">
-          <div className="text-xs uppercase tracking-widest font-bold text-zinc-500 mb-4 px-2">Discover</div>
+        <nav className={`flex flex-col gap-1 mb-6 ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>
+          <div className={`text-xs uppercase tracking-widest font-bold mb-4 px-2 ${isDarkMode ? 'text-zinc-500' : 'text-gray-400'}`}>Discover</div>
           
           <Link
             to="/"
@@ -122,11 +128,11 @@ const Sidenav = ({ open, setOpen }) => {
         </nav>
 
         {/* Divider */}
-        <div className="border-b border-zinc-700 my-4"></div>
+        <div className={`border-b my-4 ${isDarkMode ? 'border-zinc-700' : 'border-gray-300'}`}></div>
 
         {/* Info Section */}
-        <nav className="flex flex-col text-zinc-400 gap-1">
-          <div className="text-xs uppercase tracking-widest font-bold text-zinc-500 mb-4 px-2">Info</div>
+        <nav className={`flex flex-col gap-1 ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>
+          <div className={`text-xs uppercase tracking-widest font-bold mb-4 px-2 ${isDarkMode ? 'text-zinc-500' : 'text-gray-400'}`}>Info</div>
 
           <Link
             to="/about"
@@ -147,9 +153,18 @@ const Sidenav = ({ open, setOpen }) => {
           </Link>
         </nav>
 
-        {/* Footer Note */}
-        <div className="mt-auto pt-6 border-t border-zinc-700">
-          <p className="text-xs text-zinc-500 text-center leading-relaxed">
+        {/* Footer Note and Theme Toggle */}
+        <div className={`mt-auto pt-6 border-t ${isDarkMode ? 'border-zinc-700' : 'border-gray-300'}`}>
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 mb-4 bg-[#6556CD] hover:bg-[#7B68E6] text-white font-semibold rounded-lg transition-all duration-300"
+          >
+            <i className={isDarkMode ? "ri-sun-line text-lg" : "ri-moon-fill text-lg"} />
+            <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
+          </button>
+          
+          <p className={`text-xs text-center leading-relaxed ${isDarkMode ? 'text-zinc-500' : 'text-gray-400'}`}>
             Discover movies, TV shows & people powered by TMDB
           </p>
         </div>

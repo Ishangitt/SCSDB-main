@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "../../utils/axios";
+import { useTheme } from "../../context/ThemeContext";
 import noimage from "/noimage.jpg";
 
 const Topnav = () => {
@@ -8,6 +9,7 @@ const Topnav = () => {
   const [searches, setsearches] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const location = useLocation();
+  const { isDarkMode } = useTheme();
 
   const GetSearches = async () => {
     try {
@@ -28,7 +30,11 @@ const Topnav = () => {
   }, [query]);
 
   return (
-    <nav className="w-full flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-3 md:py-4 gap-3 md:gap-0 bg-[#1F1E24] bg-opacity-95 backdrop-blur-md sticky top-0 z-30 border-b border-zinc-800">
+    <nav className={`w-full flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-3 md:py-4 gap-3 md:gap-0 sticky top-0 z-30 transition-colors duration-300 ${
+      isDarkMode 
+        ? 'bg-[#1F1E24] bg-opacity-95 border-b border-zinc-800' 
+        : 'bg-white bg-opacity-95 border-b border-gray-300'
+    } backdrop-blur-md`}>
       <div className="flex items-center w-full relative justify-center">
         {/* Search container with proper spacing and positioning */}
         <div className="relative w-full max-w-3xl flex items-center group">
@@ -41,7 +47,11 @@ const Topnav = () => {
           <input
             onChange={(e) => setquery(e.target.value)}
             value={query}
-            className="text-white outline-none border-none pl-12 pr-12 py-3 md:py-3.5 text-base md:text-lg bg-zinc-900 bg-opacity-50 w-full rounded-xl text-left placeholder:text-zinc-500 placeholder:font-normal border border-zinc-700 focus:border-[#6556CD] focus:bg-zinc-900 focus:bg-opacity-80 transition-all duration-200 shadow-lg"
+            className={`outline-none border-none pl-12 pr-12 py-3 md:py-3.5 text-base md:text-lg w-full rounded-xl text-left transition-all duration-200 shadow-lg border ${
+              isDarkMode
+                ? 'text-white bg-zinc-900 bg-opacity-50 placeholder:text-zinc-500 border-zinc-700 focus:border-[#6556CD] focus:bg-zinc-900 focus:bg-opacity-80'
+                : 'text-gray-900 bg-gray-100 bg-opacity-80 placeholder:text-gray-500 border-gray-300 focus:border-[#6556CD] focus:bg-gray-50'
+            }`}
             type="text"
             placeholder="Search movies, shows, people..."
             style={{ letterSpacing: '0.01em' }}
@@ -57,13 +67,21 @@ const Topnav = () => {
 
           {/* Search results dropdown - Fixed positioning */}
           {showSearch && (
-            <div className="absolute left-0 right-0 z-[100] max-h-[60vh] overflow-auto bg-zinc-900 bg-opacity-95 backdrop-blur-sm top-[110%] rounded-xl shadow-2xl mx-auto border border-zinc-700 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-900">
+            <div className={`absolute left-0 right-0 z-[100] max-h-[60vh] overflow-auto rounded-xl shadow-2xl mx-auto border top-[110%] backdrop-blur-sm scrollbar-thin ${
+              isDarkMode
+                ? 'bg-zinc-900 bg-opacity-95 border-zinc-700 scrollbar-thumb-zinc-700 scrollbar-track-zinc-900'
+                : 'bg-gray-50 bg-opacity-95 border-gray-300 scrollbar-thumb-gray-300 scrollbar-track-gray-100'
+            }`}>
               {searches.length > 0 ? (
                 searches.map((s, i) => (
                   <Link
                     to={`/${s.media_type}/details/${s.id}`}
-                    key={i}
-                    className="text-zinc-100 hover:text-white hover:bg-zinc-800 hover:bg-opacity-60 duration-200 w-full p-4 md:p-5 flex justify-start border-b border-zinc-800 last:border-b-0 items-center group transition-all"
+                    key={s.id || i}
+                    className={`duration-200 w-full p-4 md:p-5 flex justify-start last:border-b-0 items-center group transition-all border-b ${
+                      isDarkMode
+                        ? 'text-zinc-100 hover:text-white hover:bg-zinc-800 hover:bg-opacity-60 border-zinc-800'
+                        : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100 border-gray-300'
+                    }`}
                   >
                     <img
                       className="w-[8vh] h-[8vh] md:w-[10vh] md:h-[10vh] object-cover rounded-lg mr-4 md:mr-5 shadow-lg group-hover:shadow-xl transition-shadow"
@@ -78,7 +96,7 @@ const Topnav = () => {
                       <p className="truncate font-semibold">
                         {s.name || s.title || s.original_name || s.original_title}
                       </p>
-                      <p className="text-xs text-zinc-400 mt-1">
+                      <p className={`text-xs mt-1 ${isDarkMode ? 'text-zinc-400' : 'text-gray-500'}`}>
                         {s.media_type && s.media_type.charAt(0).toUpperCase() + s.media_type.slice(1)}
                         {s.release_date && ` • ${s.release_date.split('-')[0]}`}
                       </p>
@@ -86,7 +104,7 @@ const Topnav = () => {
                   </Link>
                 ))
               ) : (
-                <div className="p-8 text-center text-zinc-400">
+                <div className={`p-8 text-center ${isDarkMode ? 'text-zinc-400' : 'text-gray-500'}`}>
                   <i className="ri-search-2-line text-3xl mb-3 block opacity-50"></i>
                   <p>No results found for "{query}"</p>
                 </div>
