@@ -2,6 +2,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
-  "env": [],
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "env": {
+    "KEY": "VALUE"
+  }
 }
